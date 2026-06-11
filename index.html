@@ -11,11 +11,17 @@
 <script>
   window.MathJax = {
     tex: { inlineMath: [['\\(','\\)']], displayMath: [['$$','$$']] },
-    svg: { fontCache: 'global', scale: 1 },
-    startup: { typeset: true }
+    svg: { fontCache: 'global' },
+    startup: { typeset: false },
+    loader: { load: ['[tex]/html'] },
+    tex: { packages: { '[+]': ['html'] } }
   };
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js" id="MathJax-script" async></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js" id="MathJax-script"></script>
+<style>
+svg[data-mathml] { max-width: 100%; max-height: auto; }
+mjx-container { display: inline; overflow: visible; }
+</style>
 <style>
 :root{
   --ink:#0c1118;          /* page ground */
