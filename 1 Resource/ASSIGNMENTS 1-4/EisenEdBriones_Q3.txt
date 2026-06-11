@@ -1,0 +1,152 @@
+Average document length for this collection is: 375.43589743589746
+
+The query is: The British-Fashion Awards
+The following are the BM25 score for each document: 
+Document ID: 3610, Doc Length: 509 -- BM25 Score: 0.0
+Document ID: 3641, Doc Length: 587 -- BM25 Score: 0.0
+Document ID: 5650, Doc Length: 31 -- BM25 Score: 0.0
+Document ID: 8768, Doc Length: 591 -- BM25 Score: 0.0
+Document ID: 9473, Doc Length: 449 -- BM25 Score: 0.0
+Document ID: 11114, Doc Length: 464 -- BM25 Score: 0.0
+Document ID: 12740, Doc Length: 170 -- BM25 Score: 0.0
+Document ID: 15404, Doc Length: 656 -- BM25 Score: 2.073998609088517
+Document ID: 19365, Doc Length: 295 -- BM25 Score: 0.0
+Document ID: 19488, Doc Length: 263 -- BM25 Score: 0.0
+Document ID: 22906, Doc Length: 159 -- BM25 Score: 0.0
+Document ID: 25548, Doc Length: 94 -- BM25 Score: 0.0
+Document ID: 25956, Doc Length: 124 -- BM25 Score: 0.0
+Document ID: 26322, Doc Length: 643 -- BM25 Score: 0.0
+Document ID: 34428, Doc Length: 157 -- BM25 Score: 3.076905135264962
+Document ID: 35104, Doc Length: 269 -- BM25 Score: 0.0
+Document ID: 37153, Doc Length: 541 -- BM25 Score: 0.0
+Document ID: 41487, Doc Length: 363 -- BM25 Score: 0.0
+Document ID: 79548, Doc Length: 374 -- BM25 Score: 0.0
+Document ID: 79552, Doc Length: 60 -- BM25 Score: 0.0
+Document ID: 79565, Doc Length: 861 -- BM25 Score: 0.0
+Document ID: 80280, Doc Length: 646 -- BM25 Score: 0.0
+Document ID: 80282, Doc Length: 126 -- BM25 Score: 0.0
+Document ID: 80283, Doc Length: 771 -- BM25 Score: 0.0
+Document ID: 80483, Doc Length: 610 -- BM25 Score: 0.0
+Document ID: 80484, Doc Length: 610 -- BM25 Score: 0.0
+Document ID: 80884, Doc Length: 610 -- BM25 Score: 0.0
+Document ID: 86042, Doc Length: 443 -- BM25 Score: 0.0
+Document ID: 86961, Doc Length: 443 -- BM25 Score: 0.0
+Document ID: 741299, Doc Length: 199 -- BM25 Score: 0.0
+Document ID: 741309, Doc Length: 104 -- BM25 Score: 4.0465914547978175
+Document ID: 780718, Doc Length: 107 -- BM25 Score: 0.0
+Document ID: 780723, Doc Length: 124 -- BM25 Score: 0.0
+Document ID: 783802, Doc Length: 120 -- BM25 Score: 15.141203558396352
+Document ID: 783803, Doc Length: 490 -- BM25 Score: 3.4292586740199567
+Document ID: 807600, Doc Length: 538 -- BM25 Score: 0.0
+Document ID: 807606, Doc Length: 187 -- BM25 Score: 0.0
+Document ID: 809481, Doc Length: 151 -- BM25 Score: 0.0
+Document ID: 809495, Doc Length: 703 -- BM25 Score: 0.0
+
+The following are the top-6 documents retrieved in response to the query -
+783802 15.141203558396352
+741309 4.0465914547978175
+783803 3.4292586740199567
+34428 3.076905135264962
+15404 2.073998609088517
+11114 0.0
+
+The query is: US EPA ranks Geo Metro car most fuel-efficient 1997 car
+The following are the BM25 score for each document: 
+Document ID: 3610, Doc Length: 509 -- BM25 Score: 0.0
+Document ID: 3641, Doc Length: 587 -- BM25 Score: 0.0
+Document ID: 5650, Doc Length: 31 -- BM25 Score: 0.0
+Document ID: 8768, Doc Length: 591 -- BM25 Score: 0.0
+Document ID: 9473, Doc Length: 449 -- BM25 Score: 0.0
+Document ID: 11114, Doc Length: 464 -- BM25 Score: 6.322720501585991
+Document ID: 12740, Doc Length: 170 -- BM25 Score: 0.0
+Document ID: 15404, Doc Length: 656 -- BM25 Score: 1.7831022747103142
+Document ID: 19365, Doc Length: 295 -- BM25 Score: 0.0
+Document ID: 19488, Doc Length: 263 -- BM25 Score: 0.0
+Document ID: 22906, Doc Length: 159 -- BM25 Score: 0.0
+Document ID: 25548, Doc Length: 94 -- BM25 Score: 0.0
+Document ID: 25956, Doc Length: 124 -- BM25 Score: 0.0
+Document ID: 26322, Doc Length: 643 -- BM25 Score: 0.0
+Document ID: 34428, Doc Length: 157 -- BM25 Score: 3.055478576133547
+Document ID: 35104, Doc Length: 269 -- BM25 Score: 0.0
+Document ID: 37153, Doc Length: 541 -- BM25 Score: 0.0
+Document ID: 41487, Doc Length: 363 -- BM25 Score: 0.0
+Document ID: 79548, Doc Length: 374 -- BM25 Score: 0.0
+Document ID: 79552, Doc Length: 60 -- BM25 Score: 0.0
+Document ID: 79565, Doc Length: 861 -- BM25 Score: 0.0
+Document ID: 80280, Doc Length: 646 -- BM25 Score: 0.0
+Document ID: 80282, Doc Length: 126 -- BM25 Score: 0.0
+Document ID: 80283, Doc Length: 771 -- BM25 Score: 0.0
+Document ID: 80483, Doc Length: 610 -- BM25 Score: 3.2266485808654037
+Document ID: 80484, Doc Length: 610 -- BM25 Score: 3.2266485808654037
+Document ID: 80884, Doc Length: 610 -- BM25 Score: 3.2266485808654037
+Document ID: 86042, Doc Length: 443 -- BM25 Score: 25.3805318983432
+Document ID: 86961, Doc Length: 443 -- BM25 Score: 25.3805318983432
+Document ID: 741299, Doc Length: 199 -- BM25 Score: 4.068330483320446
+Document ID: 741309, Doc Length: 104 -- BM25 Score: 0.0
+Document ID: 780718, Doc Length: 107 -- BM25 Score: 0.0
+Document ID: 780723, Doc Length: 124 -- BM25 Score: 0.0
+Document ID: 783802, Doc Length: 120 -- BM25 Score: 0.0
+Document ID: 783803, Doc Length: 490 -- BM25 Score: 2.069836789465324
+Document ID: 807600, Doc Length: 538 -- BM25 Score: 0.0
+Document ID: 807606, Doc Length: 187 -- BM25 Score: 0.0
+Document ID: 809481, Doc Length: 151 -- BM25 Score: 0.0
+Document ID: 809495, Doc Length: 703 -- BM25 Score: 0.0
+
+The following are the top-6 documents retrieved in response to the query -
+86042 25.3805318983432
+86961 25.3805318983432
+11114 6.322720501585991
+741299 4.068330483320446
+80483 3.2266485808654037
+80484 3.2266485808654037
+
+The query is: UK: Britain's Channel 5 to broadcast Fashion Awards.
+The following are the BM25 score for each document: 
+Document ID: 3610, Doc Length: 509 -- BM25 Score: 0.0
+Document ID: 3641, Doc Length: 587 -- BM25 Score: 0.0
+Document ID: 5650, Doc Length: 31 -- BM25 Score: 0.0
+Document ID: 8768, Doc Length: 591 -- BM25 Score: 0.0
+Document ID: 9473, Doc Length: 449 -- BM25 Score: 0.0
+Document ID: 11114, Doc Length: 464 -- BM25 Score: 0.0
+Document ID: 12740, Doc Length: 170 -- BM25 Score: 0.0
+Document ID: 15404, Doc Length: 656 -- BM25 Score: 2.073998609088517
+Document ID: 19365, Doc Length: 295 -- BM25 Score: 0.0
+Document ID: 19488, Doc Length: 263 -- BM25 Score: 0.0
+Document ID: 22906, Doc Length: 159 -- BM25 Score: 0.0
+Document ID: 25548, Doc Length: 94 -- BM25 Score: 0.0
+Document ID: 25956, Doc Length: 124 -- BM25 Score: 0.0
+Document ID: 26322, Doc Length: 643 -- BM25 Score: 0.0
+Document ID: 34428, Doc Length: 157 -- BM25 Score: 0.0
+Document ID: 35104, Doc Length: 269 -- BM25 Score: 0.0
+Document ID: 37153, Doc Length: 541 -- BM25 Score: 0.0
+Document ID: 41487, Doc Length: 363 -- BM25 Score: 0.0
+Document ID: 79548, Doc Length: 374 -- BM25 Score: 0.0
+Document ID: 79552, Doc Length: 60 -- BM25 Score: 0.0
+Document ID: 79565, Doc Length: 861 -- BM25 Score: 1.5332958341190779
+Document ID: 80280, Doc Length: 646 -- BM25 Score: 0.0
+Document ID: 80282, Doc Length: 126 -- BM25 Score: 0.0
+Document ID: 80283, Doc Length: 771 -- BM25 Score: 1.6383723697492245
+Document ID: 80483, Doc Length: 610 -- BM25 Score: 0.0
+Document ID: 80484, Doc Length: 610 -- BM25 Score: 0.0
+Document ID: 80884, Doc Length: 610 -- BM25 Score: 0.0
+Document ID: 86042, Doc Length: 443 -- BM25 Score: 0.0
+Document ID: 86961, Doc Length: 443 -- BM25 Score: 0.0
+Document ID: 741299, Doc Length: 199 -- BM25 Score: 2.9025753614258183
+Document ID: 741309, Doc Length: 104 -- BM25 Score: 0.0
+Document ID: 780718, Doc Length: 107 -- BM25 Score: 0.0
+Document ID: 780723, Doc Length: 124 -- BM25 Score: 0.0
+Document ID: 783802, Doc Length: 120 -- BM25 Score: 22.00510085709042
+Document ID: 783803, Doc Length: 490 -- BM25 Score: 9.507932171379752
+Document ID: 807600, Doc Length: 538 -- BM25 Score: 0.0
+Document ID: 807606, Doc Length: 187 -- BM25 Score: 0.0
+Document ID: 809481, Doc Length: 151 -- BM25 Score: 0.0
+Document ID: 809495, Doc Length: 703 -- BM25 Score: 0.0
+
+The following are the top-6 documents retrieved in response to the query -
+783802 22.00510085709042
+783803 9.507932171379752
+741299 2.9025753614258183
+15404 2.073998609088517
+80283 1.6383723697492245
+79565 1.5332958341190779
+

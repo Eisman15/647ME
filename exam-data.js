@@ -89,11 +89,11 @@ const BANK = [
   explain:"Documents also have <strong>quality features</strong> — meta-information such as “days since last update.” So there are two types: <em>topical</em> (about the content) and <em>quality</em> (meta-information). The “topical only” claim is the false one."
 },
 {
-  id:"m1-abstract-rank", module:1, week:"W3", kind:"mc", marks:3, diff:"Normal",
-  prompt:"You have the standard ranking function \\(R(Q,D)\\) but the system needs the pairwise form \\(f(A,B,Q)\\). If \\(R(Q,A) > R(Q,B)\\), what should \\(f(A,B,Q)\\) return?",
+  id:"m3-pairwise-rank", module:3, week:"W6", kind:"mc", marks:3, diff:"Normal",
+  prompt:"In <b>pairwise Learning-to-Rank</b>, the preference function \\(f(A,B,Q)\\) converts the base scoring function \\(R(Q,D)\\) into a discrete <em>label</em>: <b>+1</b> = "rank A above B", <b>−1</b> = "rank B above A", <b>0</b> = tie. Suppose the ranker gives \\(R(Q,A)=0.82\\) and \\(R(Q,B)=0.54\\). What is \\(f(A,B,Q)\\)?",
   options:["−1","0","1","R(Q,A) − R(Q,B)"],
   correct:2,
-  explain:"\\(f(A,B,Q)=1\\) if A should rank higher (\\(R(Q,A)>R(Q,B)\\)), \\(-1\\) if B should rank higher, and \\(0\\) on a tie. In plain English: compute \\(R(Q,D)\\) for both documents separately, then compare the two scores."
+  explain:"Since \\(R(Q,A)>R(Q,B)\\), A should rank higher → \\(f(A,B,Q)=\\mathbf{+1}\\). The function returns a <em>preference label</em> \\(\\{-1,0,+1\\}\\), not a numeric difference — though you compute the difference internally to decide the label."
 },
 {
   id:"m1-inverted-tf", module:1, week:"W4", kind:"tf", marks:2, diff:"Normal",
@@ -215,6 +215,27 @@ model.wv.similarity(<span class="st">'alice'</span>, <span class="st">'machines'
   ],
   model:"\\(\\text{sim}(D1,D2)=\\dfrac{D1\\cdot D2}{|D1|\\,|D2|}=\\dfrac{0.16}{0.8062\\times0.7211}=\\dfrac{0.16}{0.5814}=\\mathbf{0.2752}\\). Documents with no shared terms get 0; identical normalised vectors get 1."
 },
+{
+  id:"m1-tfidf-formula", module:1, week:"W3", kind:"formula", marks:5, diff:"Hard",
+  prompt:"Compute the <b>TF-IDF weight</b> for a term that appears <b>4 times</b> in a document. The collection has <b>N = 10</b> documents, and the term occurs in <b>df = 2</b> of them. Use log-normalised TF and natural-log IDF.",
+  formulas:[
+    "tf_norm = 1 + ln(tf)     ·     idf = ln(N / df)",
+    "tf-idf = tf_norm × idf"
+  ],
+  substeps:[
+    {label:"tf_norm =", accept:["2.386","2.3863","2.39"], hint:"= 1 + ln(4) = 1 + 1.3863"},
+    {label:"idf =",     accept:["1.609","1.6094","1.61"], hint:"= ln(10/2) = ln(5)"}
+  ],
+  finalLabel:"tf-idf =",
+  accept:["3.840","3.8404","3.84"],
+  hint:"4 dp",
+  steps:[
+    "\\(tf_{\\text{norm}}=1+\\ln(4)=1+1.3863=\\mathbf{2.3863}\\)",
+    "\\(idf=\\ln\\!\\left(\\tfrac{10}{2}\\right)=\\ln(5)=\\mathbf{1.6094}\\)",
+    "\\(tf\\text{-}idf=2.3863\\times1.6094=\\mathbf{3.8404}\\)"
+  ],
+  model:"\\(tf\\text{-}idf=\\left(1+\\ln 4\\right)\\times\\ln\\!\\tfrac{10}{2}=2.3863\\times1.6094=\\mathbf{3.8404}\\). Log normalisation dampens the raw count; IDF boosts terms that appear in few documents."
+},
 
 /* ===================== MODULE 2 — wk5 ===================== */
 {
@@ -303,7 +324,7 @@ model.wv.similarity(<span class="st">'alice'</span>, <span class="st">'machines'
   id:"m2-jm-full", module:2, week:"W5", kind:"formula", marks:6, diff:"Hard",
   prompt:"Jelinek-Mercer smoothing, \\(\\lambda=0.7\\). Query <b>q = \"machine learning model\"</b>. Work out each term's smoothed probability, then compute the <b>log query likelihood</b> \\(\\log P_{JM}(q|D1)=\\sum_t\\ln P_{JM}(t|D1)\\).",
   formulas:[
-    "P_JM(t|D) = λ · P(t|D) + (1−λ) · P(t|C)",
+    "P_JM(t|D) = (1−λ) · P(t|D) + λ · P(t|C)",
     "P(t|D) = tf(t,D) / |D|     ·     P(t|C) = tf(t,C) / |C|"
   ],
   table:{
@@ -311,20 +332,20 @@ model.wv.similarity(<span class="st">'alice'</span>, <span class="st">'machines'
     rows:[["machine","4","16"],["learning","6","10"],["model","2","20"]]
   },
   substeps:[
-    {label:"P<sub>JM</sub>(machine|D1) =", accept:["0.08","0.080","0.0800"], hint:"= 0.7×(4/50) + 0.3×(16/200)"},
-    {label:"P<sub>JM</sub>(learning|D1) =", accept:["0.099","0.0990"],        hint:"= 0.7×(6/50) + 0.3×(10/200)"},
-    {label:"P<sub>JM</sub>(model|D1) =",   accept:["0.058","0.0580"],         hint:"= 0.7×(2/50) + 0.3×(20/200)"}
+    {label:"P<sub>JM</sub>(machine|D1) =", accept:["0.08","0.080","0.0800"], hint:"= (1−λ)×(4/50) + λ×(16/200) = 0.3×0.08 + 0.7×0.08"},
+    {label:"P<sub>JM</sub>(learning|D1) =", accept:["0.071","0.0710"],        hint:"= (1−λ)×(6/50) + λ×(10/200) = 0.3×0.12 + 0.7×0.05"},
+    {label:"P<sub>JM</sub>(model|D1) =",   accept:["0.082","0.0820"],         hint:"= (1−λ)×(2/50) + λ×(20/200) = 0.3×0.04 + 0.7×0.10"}
   ],
   finalLabel:"log P<sub>JM</sub>(q|D1) =",
-  accept:["-7.6857","-7.6856","-7.686","-7.69"],
+  accept:["-7.6718","-7.672","-7.67"],
   hint:"4 dp",
   steps:[
-    "\\(P_{JM}(\\text{machine}|D1)=0.7\\times\\tfrac{4}{50}+0.3\\times\\tfrac{16}{200}=0.056+0.024=\\mathbf{0.0800}\\)",
-    "\\(P_{JM}(\\text{learning}|D1)=0.7\\times\\tfrac{6}{50}+0.3\\times\\tfrac{10}{200}=0.084+0.015=\\mathbf{0.0990}\\)",
-    "\\(P_{JM}(\\text{model}|D1)=0.7\\times\\tfrac{2}{50}+0.3\\times\\tfrac{20}{200}=0.028+0.030=\\mathbf{0.0580}\\)",
-    "Sum of logs: \\(\\ln(0.0800)+\\ln(0.0990)+\\ln(0.0580)=-2.5257+(-2.3126)+(-2.8473)=\\mathbf{-7.6856}\\)"
+    "\\(P_{JM}(\\text{machine}|D1)=(1-0.7)\\times\\tfrac{4}{50}+0.7\\times\\tfrac{16}{200}=0.024+0.056=\\mathbf{0.0800}\\)",
+    "\\(P_{JM}(\\text{learning}|D1)=(1-0.7)\\times\\tfrac{6}{50}+0.7\\times\\tfrac{10}{200}=0.036+0.035=\\mathbf{0.0710}\\)",
+    "\\(P_{JM}(\\text{model}|D1)=(1-0.7)\\times\\tfrac{2}{50}+0.7\\times\\tfrac{20}{200}=0.012+0.070=\\mathbf{0.0820}\\)",
+    "Sum of logs: \\(\\ln(0.0800)+\\ln(0.0710)+\\ln(0.0820)=-2.5257+(-2.6451)+(-2.5010)=\\mathbf{-7.6718}\\)"
   ],
-  model:"\\(\\log P_{JM}(q|D1)=\\ln(0.08)+\\ln(0.099)+\\ln(0.058)=\\mathbf{-7.6857}\\). Each term's smoothed probability avoids zero via the corpus background \\(\\lambda\\,P(t|C)\\); the product-in-log-space gives the query likelihood."
+  model:"\\(\\log P_{JM}(q|D1)=\\ln(0.080)+\\ln(0.071)+\\ln(0.082)=\\mathbf{-7.6718}\\). With \\(\\lambda=0.7\\) weighting the collection heavily, terms common in the corpus (like <em>model</em>) get a larger boost than document-frequent terms. The product-in-log-space gives the query likelihood."
 },
 {
   id:"m2-eval-chain", module:2, week:"W5", kind:"formula", marks:5, diff:"Normal",

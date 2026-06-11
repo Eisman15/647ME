@@ -1,0 +1,46 @@
+9.1 Overview
+ Text Classification, Feature Selection and Sentiment Analysis
+
+ 
+
+Text classification (also known as categorization) is the task of automatically assigning labels (e.g., class names) to data such as emails, web pages, or images. It is a well-established problem in machine learning and is typically formulated as a supervised learning task. In general, learning paradigms are categorized as supervised, semi-supervised, or unsupervised. In supervised learning, a classifier (or function) is trained on a fully labeled dataset (the training set). The learned model can then be applied to unseen, unlabeled data in real-world applications (or a test set during evaluation) to automatically assign labels.
+
+Deep learning methods (e.g., RNNs and LSTMs) have been widely adopted for classification due to their ability to learn representations directly from data, rather than relying on manually engineered features. Deep learning–based text classification typically employs task-specific neural architectures (e.g., CNNs, RNNs, LSTMs) to learn document representations from labeled data. More recently, large language model (LLM)–based approaches leverage large-scale pre-trained models (e.g., BERT), trained on diverse corpora, and can be adapted to specific tasks via fine-tuning or prompt-based methods (e.g., zero-shot and few-shot learning), such as in sentiment analysis.
+
+This unit does not cover the internal architectures of deep learning models and assumes that students have a foundational background in machine learning or data mining. Once documents are represented in a machine-readable form (e.g., vectors or matrices), applying machine learning models becomes relatively straightforward. Moreover, deep learning models do not consistently outperform traditional classifiers, such as Support Vector Machines (SVM) or Naïve Bayes (NB), across all text classification tasks.
+
+To build a solid understanding of supervised decision-making, this unit focuses on key issues such as feature selection and engineering, as well as model interpretability. In particular, Naïve Bayes and linear SVM models are emphasized due to their comparatively high interpretability relative to deep learning approaches.
+
+Week 9 lecture examines text classification as a supervised learning paradigm for decision making. The discussion emphasizes explainable machine learning models for text classification, alongside foundational topics such as feature selection, feature extraction, and feature engineering, including Principal Component Analysis (PCA). The week also addresses sentiment analysis as a key application of text classification, encompassing standard classification tasks, more advanced sentiment analysis techniques, and recent developments in sentiment analysis in the era of large language models (LLMs). 
+
+
+
+
+9.4 Workshop Solutions
+Well done on completing the Week 9 workshop. Below are the solutions to each of the exercises for Week 9.
+
+Read the following to understand the parameters used in the solution:
+
+Task 1 (Supervised Learning Phase) - you can find the data in page 8.3 In the Workshop
+
+This task is supervised and uses two inputs:
+
+The training dataset from the "Training_set" folder
+The relevance judgments provided in Training_benchmark.txt
+Task 2 (Testing / Inference Phase)
+This task performs the testing procedure and uses two inputs:
+
+The "Test_set" folder
+The feature file Model_w5_R102.dat, which is generated as the output of Task 1
+Task 3 (Evaluation Phase)
+This task evaluates the model performance using two inputs:
+
+The Test_benchmark (ground truth relevance judgments)
+The output generated from Task 2
+
+In this week, we explored:
+
+Text classification as a supervised learning paradigm for decision-making, alongside foundational topics such as feature engineering.
+Sentiment analysis as a key application of text classification, including advanced sentiment analysis techniques.
+Recent developments in sentiment analysis in the era of large language models (LLMs).
+The concept of classification should already be familiar to you. The main focus of this week is to build a solid understanding of supervised decision-making. You may need additional time to work through the review questions carefully, particularly to understand document representation, how labelled data is used in supervised learning, and how to design Python code for training and testing models.

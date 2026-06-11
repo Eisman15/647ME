@@ -1,0 +1,167 @@
+================================================================================
+  IFN647 Assignment 1 - User Guide
+  Student : Eisen Ed C. Briones
+  Student ID : 12300098
+================================================================================
+
+OVERVIEW
+--------
+This assignment implements a series of Information Retrieval (IR) models applied
+to the Subset_RCV1v2 document collection. There are four Python scripts, each
+building on the previous:
+
+  q1.py  --  Document & Query Parsing
+  q2.py  --  TF*IDF-based IR Model
+  q3.py  --  BM25-based IR Model
+  q4.py  --  BM25-Based IR for RAG Prompt Generation
+
+
+--------------------------------------------------------------------------------
+DEPENDENCIES
+--------------------------------------------------------------------------------
+
+Python version : 3.13.5
+
+Required third-party package:
+  - stemming (version 1.0.1)  -- provides the Porter2 stemming algorithm
+
+All other imports (glob, os, string, math) are part of the Python standard
+library and require no installation.
+
+To install the stemming package, run:
+
+  pip install stemming
+
+If using the virtual environment included with this project (.venv), activate it
+first before running any script:
+
+  Windows Command Prompt:
+    .venv\Scripts\activate
+
+  Windows PowerShell:
+    .venv\Scripts\Activate.ps1
+
+  Git Bash / Terminal:
+    source .venv/Scripts/activate
+
+
+--------------------------------------------------------------------------------
+REQUIRED FILES AND FOLDER STRUCTURE
+--------------------------------------------------------------------------------
+
+The following files and folders must be present in the same directory as the
+Python scripts before execution:
+
+  common-english-words.txt   -- stop word list (provided)
+  Subset_RCV1v2/             -- folder containing the XML document collection
+
+
+Expected directory layout:
+
+  ASSIGNMENTS 1-4/
+  |-- q1.py
+  |-- q2.py
+  |-- q3.py
+  |-- q4.py
+  |-- common-english-words.txt
+  |-- Subset_RCV1v2/
+  |   |-- *.xml  (39 XML news documents)
+  |-- .venv/  (optional virtual environment)
+
+
+--------------------------------------------------------------------------------
+EXECUTION ORDER
+--------------------------------------------------------------------------------
+
+Each script is fully self-contained and can be run independently. However, the
+recommended execution order follows the question sequence, as each script
+represents a progression of the IR model:
+
+  1. q1.py  (Parsing)
+  2. q2.py  (TF*IDF)
+  3. q3.py  (BM25)
+  4. q4.py  (RAG)
+
+
+--------------------------------------------------------------------------------
+HOW TO RUN EACH SCRIPT
+--------------------------------------------------------------------------------
+
+All scripts must be run from the directory containing q1.py--q4.py so that
+relative paths (e.g., 'common-english-words.txt', 'Subset_RCV1v2') resolve
+correctly.
+
+  cd "path/to/ASSIGNMENTS 1-4"
+
+Then run each script with:
+
+  python q1.py
+  python q2.py
+  python q3.py
+  python q4.py
+
+If using the project virtual environment directly (without activating it):
+
+  .venv\Scripts\python.exe q1.py
+  .venv\Scripts\python.exe q2.py
+  .venv\Scripts\python.exe q3.py
+  .venv\Scripts\python.exe q4.py
+
+
+--------------------------------------------------------------------------------
+OUTPUT FILES
+--------------------------------------------------------------------------------
+
+Each script writes its results to a text file in the same directory:
+
+  q1.py  -->  EisenEdBriones_Q1.txt
+              - Per-document term frequency lists (sorted by frequency)
+              - Parsed output for 3 test queries
+
+  q2.py  -->  EisenEdBriones_Q2.txt
+              - Collection-wide document frequencies for all terms
+              - Top-20 TF*IDF weighted terms per document
+              - TF*IDF-based ranking results for 3 test queries
+
+  q3.py  -->  EisenEdBriones_Q3.txt
+              - Average document length of the collection
+              - BM25 scores for all documents per query
+              - Top-6 ranked documents for 3 test queries
+
+  q4.py  -->  EisenEdBriones_Q4.txt
+              - Top-4 BM25-retrieved documents per query
+              - 10 most frequent context terms per query
+              - Generated RAG prompt for each of the 3 test queries
+
+If an output file already exists it will be overwritten on each run.
+
+
+--------------------------------------------------------------------------------
+TEST QUERIES USED IN ALL SCRIPTS
+--------------------------------------------------------------------------------
+
+  q1: The British-Fashion Awards
+  q2: US EPA ranks Geo Metro car most fuel-efficient 1997 car
+  q3: UK: Britain's Channel 5 to broadcast Fashion Awards.
+
+
+--------------------------------------------------------------------------------
+NOTES
+--------------------------------------------------------------------------------
+
+- All scripts extend the base stop word list (common-english-words.txt) with
+  four additional domain-specific stop words: quot, amp, reuter, reuters.
+
+- Text preprocessing applied consistently across all scripts:
+    1. Extract content within <text>...</text> XML tags only
+    2. Remove <p> and </p> tags
+    3. Remove digits and replace punctuation with spaces
+    4. Lowercase all tokens
+    5. Apply Porter2 stemming (from the stemming package)
+    6. Remove stop words and tokens of length <= 2
+
+- word  : any token obtained after removing digits and punctuation
+- term  : a word that has been lowercased, stemmed, is longer than 2
+          characters, and is not a stop word
+
+================================================================================
