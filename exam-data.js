@@ -90,8 +90,8 @@ const BANK = [
 },
 {
   id:"m3-pairwise-rank", module:3, week:"W6", kind:"mc", marks:3, diff:"Normal",
-  prompt:"In <b>pairwise Learning-to-Rank</b>, the preference function \\(f(A,B,Q)\\) converts the base scoring function \\(R(Q,D)\\) into a discrete <em>label</em>: <b>+1</b> = "rank A above B", <b>−1</b> = "rank B above A", <b>0</b> = tie. Suppose the ranker gives \\(R(Q,A)=0.82\\) and \\(R(Q,B)=0.54\\). What is \\(f(A,B,Q)\\)?",
-  options:["−1","0","1","R(Q,A) − R(Q,B)"],
+  prompt:"In <b>pairwise Learning-to-Rank</b>, the preference function \\(f(A,B,Q)\\) converts the base scoring function \\(R(Q,D)\\) into a discrete <em>label</em>: <b>+1</b> = \"rank A above B\", <b>-1</b> = \"rank B above A\", <b>0</b> = tie. Suppose the ranker gives \\(R(Q,A)=0.82\\) and \\(R(Q,B)=0.54\\). What is \\(f(A,B,Q)\\)?",
+  options:["-1","0","1","R(Q,A) - R(Q,B)"],
   correct:2,
   explain:"Since \\(R(Q,A)>R(Q,B)\\), A should rank higher → \\(f(A,B,Q)=\\mathbf{+1}\\). The function returns a <em>preference label</em> \\(\\{-1,0,+1\\}\\), not a numeric difference — though you compute the difference internally to decide the label."
 },
@@ -296,10 +296,12 @@ model.wv.similarity(<span class="st">'alice'</span>, <span class="st">'machines'
   accept:["71.43","71.43%","0.7143",".7143","71.4"],
   hint:"e.g. 71.43%",
   steps:[
-    "Numerator: \\(2\\times\\tfrac{5}{8}\\times\\tfrac{5}{6}=\\tfrac{10}{?}\\) → combine to \\(\\tfrac{10}{14}\\)",
-    "\\(F1=\\dfrac{10}{14}=0.7143=\\mathbf{71.43\\%}\\)"
+    "Convert: \\(R=\\tfrac{5}{8}=0.625\\), \\(P=\\tfrac{5}{6}=0.8333\\)",
+    "Numerator: \\(2\\times 0.625\\times 0.8333 = 1.0416\\)",
+    "Denominator: \\(0.625 + 0.8333 = 1.4583\\)",
+    "\\(F1=\\dfrac{1.0416}{1.4583}=0.7143=\\mathbf{71.43\\%}\\)"
   ],
-  model:"\\(F1=\\dfrac{2\\times\\frac58\\times\\frac56}{\\frac58+\\frac56}=\\dfrac{10}{14}=71.43\\%\\) — the harmonic balance of recall and precision."
+  model:"\\(F1=\\dfrac{2\\times 0.625\\times 0.8333}{0.625+0.8333}=\\dfrac{1.0416}{1.4583}=71.43\\%\\) — the harmonic balance of recall and precision."
 },
 {
   id:"m2-fpfn", module:2, week:"W5", kind:"mc", marks:2, diff:"Normal",
@@ -324,7 +326,7 @@ model.wv.similarity(<span class="st">'alice'</span>, <span class="st">'machines'
   id:"m2-jm-full", module:2, week:"W5", kind:"formula", marks:6, diff:"Hard",
   prompt:"Jelinek-Mercer smoothing, \\(\\lambda=0.7\\). Query <b>q = \"machine learning model\"</b>. Work out each term's smoothed probability, then compute the <b>log query likelihood</b> \\(\\log P_{JM}(q|D1)=\\sum_t\\ln P_{JM}(t|D1)\\).",
   formulas:[
-    "P_JM(t|D) = (1−λ) · P(t|D) + λ · P(t|C)",
+    "P_JM(t|D) = (1-λ) · P(t|D) + λ · P(t|C)",
     "P(t|D) = tf(t,D) / |D|     ·     P(t|C) = tf(t,C) / |C|"
   ],
   table:{
@@ -332,9 +334,9 @@ model.wv.similarity(<span class="st">'alice'</span>, <span class="st">'machines'
     rows:[["machine","4","16"],["learning","6","10"],["model","2","20"]]
   },
   substeps:[
-    {label:"P<sub>JM</sub>(machine|D1) =", accept:["0.08","0.080","0.0800"], hint:"= (1−λ)×(4/50) + λ×(16/200) = 0.3×0.08 + 0.7×0.08"},
-    {label:"P<sub>JM</sub>(learning|D1) =", accept:["0.071","0.0710"],        hint:"= (1−λ)×(6/50) + λ×(10/200) = 0.3×0.12 + 0.7×0.05"},
-    {label:"P<sub>JM</sub>(model|D1) =",   accept:["0.082","0.0820"],         hint:"= (1−λ)×(2/50) + λ×(20/200) = 0.3×0.04 + 0.7×0.10"}
+    {label:"P<sub>JM</sub>(machine|D1) =", accept:["0.08","0.080","0.0800"], hint:"= (1-λ)×(4/50) + λ×(16/200) = 0.3×0.08 + 0.7×0.08"},
+    {label:"P<sub>JM</sub>(learning|D1) =", accept:["0.071","0.0710"],        hint:"= (1-λ)×(6/50) + λ×(10/200) = 0.3×0.12 + 0.7×0.05"},
+    {label:"P<sub>JM</sub>(model|D1) =",   accept:["0.082","0.0820"],         hint:"= (1-λ)×(2/50) + λ×(20/200) = 0.3×0.04 + 0.7×0.10"}
   ],
   finalLabel:"log P<sub>JM</sub>(q|D1) =",
   accept:["-7.6718","-7.672","-7.67"],
