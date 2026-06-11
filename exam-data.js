@@ -188,6 +188,33 @@ model.wv.similarity(<span class="st">'alice'</span>, <span class="st">'wonderlan
 model.wv.similarity(<span class="st">'alice'</span>, <span class="st">'machines'</span>)     <span class="cm"># ~0.546 (less related)</span></pre>`,
   notes:"CBOW predicts a word from its context; Skip-gram predicts context from a word. <code>wv.similarity()</code> = cosine similarity between two learnt vectors. <code>min_count=1</code> keeps all words; <code>vector_size=10</code> = 10-d vectors; <code>window=5</code> = context width."
 },
+{
+  id:"m1-cosine-formula", module:1, week:"W3", kind:"formula", marks:5, diff:"Hard",
+  prompt:"Vector Space Model. Compute the <b>cosine similarity</b> between D1 and D2 using their TF-IDF weighted vectors.",
+  formulas:[
+    "sim(D1, D2) = (D1 · D2) / (|D1| × |D2|)",
+    "D1 · D2 = Σ d1ᵢ × d2ᵢ     |D| = √(Σ dᵢ²)"
+  ],
+  table:{
+    headers:["Term","D1 weight","D2 weight"],
+    rows:[["fish","0.70","0.00"],["tropical","0.40","0.40"],["pet","0.00","0.60"]]
+  },
+  substeps:[
+    {label:"D1 · D2 =",accept:["0.16","0.160"],              hint:"= 0.7×0.0 + 0.4×0.4 + 0.0×0.6"},
+    {label:"|D1| =",   accept:["0.806","0.8062","0.81"],     hint:"= √(0.7² + 0.4² + 0.0²) = √0.65"},
+    {label:"|D2| =",   accept:["0.721","0.7211","0.72"],     hint:"= √(0.0² + 0.4² + 0.6²) = √0.52"}
+  ],
+  finalLabel:"sim(D1, D2) =",
+  accept:["0.275","0.2752","0.28"],
+  hint:"4 dp",
+  steps:[
+    "D1 · D2 = 0.7×0.0 + 0.4×0.4 + 0.0×0.6 = <strong>0.16</strong>",
+    "|D1| = √(0.49 + 0.16 + 0.00) = √0.65 = <strong>0.8062</strong>",
+    "|D2| = √(0.00 + 0.16 + 0.36) = √0.52 = <strong>0.7211</strong>",
+    "sim(D1,D2) = 0.16 / (0.8062 × 0.7211) = 0.16 / 0.5814 = <strong>0.2752</strong>"
+  ],
+  model:"\\(\\text{sim}(D1,D2)=\\dfrac{D1\\cdot D2}{|D1|\\,|D2|}=\\dfrac{0.16}{0.8062\\times0.7211}=\\dfrac{0.16}{0.5814}=\\mathbf{0.2752}\\). Documents with no shared terms get 0; identical normalised vectors get 1."
+},
 
 /* ===================== MODULE 2 — wk5 ===================== */
 {
@@ -414,6 +441,26 @@ model.wv.similarity(<span class="st">'alice'</span>, <span class="st">'machines'
   keypoints:["N = len(D) all docs","R = len(Rel) relevant docs","n(t) = all docs with term t","r(t) = relevant docs with term t","+0.5 avoids divide-by-zero"]
 },
 {
+  id:"m3-bm25-formula", module:3, week:"W7", kind:"formula", marks:4, diff:"Hard",
+  prompt:"BM25 term weight. Collection: <b>N=8</b> docs, <b>R=3</b> relevant. Term <code>\"retrieval\"</code>: <b>n=4</b> docs contain it, <b>r=3</b> of those are relevant. Compute \\(w_5(\\text{retrieval})\\).",
+  formulas:[
+    "w₅(t) = ln[ (r+0.5)/(R−r+0.5)  ÷  (n−r+0.5)/(N−n−(R−r)+0.5) ]"
+  ],
+  substeps:[
+    {label:"Numerator fraction =",   accept:["7","7.0"],              hint:"= (r+0.5) / (R−r+0.5) = 3.5 / 0.5"},
+    {label:"Denominator fraction =", accept:["0.3333","0.333","1/3"], hint:"= (n−r+0.5) / (N−n−(R−r)+0.5) = 1.5 / 4.5"}
+  ],
+  finalLabel:"w₅(retrieval) =",
+  accept:["3.0445","3.045","3.04"],
+  hint:"4 dp  (use ln)",
+  steps:[
+    "Numerator: \\((r+0.5)/(R-r+0.5)=(3+0.5)/(3-3+0.5)=3.5/0.5=\\mathbf{7.0}\\)",
+    "Denominator: \\((n-r+0.5)/(N-n-(R-r)+0.5)=(4-3+0.5)/(8-4-0+0.5)=1.5/4.5=\\mathbf{0.333}\\)",
+    "\\(w_5=\\ln(7.0/0.333)=\\ln(21.0)=\\mathbf{3.0445}\\)"
+  ],
+  model:"\\(w_5=\\ln\\!\\left[\\dfrac{3.5/0.5}{1.5/4.5}\\right]=\\ln\\!\\left[\\dfrac{7.0}{0.\\overline{3}}\\right]=\\ln(21)=\\mathbf{3.0445}\\). High weight: all 3 relevant docs contain the term but only 1 non-relevant doc does → strongly predictive of relevance."
+},
+{
   id:"m3-rag-tf", module:3, week:"W8", kind:"mc", marks:2, diff:"Normal",
   prompt:"Five statements about LLMs and RAG — which is <b>FALSE</b>?",
   options:[
@@ -470,6 +517,33 @@ model.wv.similarity(<span class="st">'alice'</span>, <span class="st">'machines'
     "P(cheap|c1) = 11/25 = <strong>0.44</strong>"
   ],
   model:"\\(P(\\text{cheap}|c1)=\\dfrac{10+1}{20+5}=\\dfrac{11}{25}=0.44\\). Smoothing adds 1 to the numerator and |V| to the denominator so no term gets zero probability. Note \\(|c_j|\\) is the total <em>word count</em> in the class, not the number of docs."
+},
+{
+  id:"m4-nb-formula", module:4, week:"W9", kind:"formula", marks:5, diff:"Hard",
+  prompt:"Multinomial Naïve Bayes. Classify document <b>d = \"cheap cheap offer\"</b> (cheap×2, offer×1). Compute the <b>log score for the spam class c1</b>: \\(\\ln P(c1)+\\sum_{w\\in d}\\ln P(w|c1)\\).",
+  formulas:[
+    "P(cⱼ) = Ncⱼ / N     (class prior)",
+    "P(w|cⱼ) = (tf(w,cⱼ)+1) / (|cⱼ|+|V|)     (Laplace)"
+  ],
+  table:{
+    headers:["Parameter","Value"],
+    rows:[["N (total docs)","10"],["Nc1 (spam docs)","3"],["|c1| (word count in spam)","20"],["|V| (vocab size)","5"],["tf(cheap, c1)","10"],["tf(offer, c1)","2"]]
+  },
+  substeps:[
+    {label:"P(c1) =",       accept:["0.3","0.30","3/10"],    hint:"= Nc1 / N = 3 / 10"},
+    {label:"P(cheap|c1) =", accept:["0.44","0.4400","11/25"],hint:"= (10+1) / (20+5) = 11/25"},
+    {label:"P(offer|c1) =", accept:["0.12","0.1200","3/25"], hint:"= (2+1) / (20+5) = 3/25"}
+  ],
+  finalLabel:"log score(c1) =",
+  accept:["-4.9662","-4.966","-4.97"],
+  hint:"4 dp  (use ln)",
+  steps:[
+    "P(c1) = 3/10 = <strong>0.3</strong>",
+    "P(cheap|c1) = (10+1)/(20+5) = 11/25 = <strong>0.44</strong>",
+    "P(offer|c1) = (2+1)/(20+5) = 3/25 = <strong>0.12</strong>",
+    "log score(c1) = ln(0.3) + 2×ln(0.44) + ln(0.12) = −1.2040 + 2×(−0.8210) + (−2.1203) = <strong>−4.9662</strong>"
+  ],
+  model:"\\(\\ln(0.3)+2\\ln(0.44)+\\ln(0.12)=-1.204-1.642-2.120=\\mathbf{-4.966}\\). To classify, compare against \\(\\log\\text{score}(c2)\\) — the higher value wins. Logs prevent arithmetic underflow from multiplying many small probabilities."
 },
 {
   id:"m4-nb-classify", module:4, week:"W9", kind:"code", marks:5, diff:"Hard",
@@ -579,6 +653,32 @@ model.wv.similarity(<span class="st">'alice'</span>, <span class="st">'machines'
   ],
   correct:2,
   explain:"With no pages pointing to C, the \\(\\sum PR(v)/L_v\\) term is 0, so C gets only the random-jump base score \\(λ/N = 0.15/4 = 0.0375\\) — the lowest in the graph. B, with the most inlinks, gets the highest (0.4625)."
+},
+{
+  id:"m5-pagerank-formula", module:5, week:"W12", kind:"formula", marks:6, diff:"Hard",
+  prompt:"PageRank iteration 1. \\(PR(u)=\\tfrac{\\lambda}{N}+(1-\\lambda)\\sum_{v\\in B_u}\\tfrac{PR(v)}{L_v}\\), \\(\\lambda=0.15\\), \\(N=4\\), initial \\(PR=0.25\\). Compute <b>all four pages</b> in the order that unlocks each calculation.",
+  formulas:[
+    "PR(u) = λ/N + (1−λ) × Σ PR(v)/L(v)   (sum over pages v that link to u)"
+  ],
+  table:{
+    headers:["Page","Out-links L(v)","In-links B(u)"],
+    rows:[["A","2  (→B, →D)","C"],["B","0  (dangling)","A, C, D"],["C","2  (→A, →B)","none"],["D","1  (→B)","A"]]
+  },
+  substeps:[
+    {label:"PR(C) =", accept:["0.0375","0.038",".0375"],   hint:"No pages link to C → only base score λ/N = 0.15/4"},
+    {label:"PR(A) =", accept:["0.14375","0.144","0.1438"], hint:"In-link: C (L_C=2) → 0.0375 + 0.85×(0.25/2)"},
+    {label:"PR(D) =", accept:["0.14375","0.144","0.1438"], hint:"In-link: A (L_A=2) → 0.0375 + 0.85×(0.25/2)"}
+  ],
+  finalLabel:"PR(B) =",
+  accept:["0.4625","0.463","0.46"],
+  hint:"4 dp",
+  steps:[
+    "PR(C) = 0.15/4 + 0.85×0 = <strong>0.0375</strong> (no in-links, only random-jump base)",
+    "PR(A) = 0.15/4 + 0.85×(PR(C)/L_C) = 0.0375 + 0.85×(0.25/2) = 0.0375 + 0.10625 = <strong>0.14375</strong>",
+    "PR(D) = 0.15/4 + 0.85×(PR(A)/L_A) = 0.0375 + 0.85×(0.25/2) = 0.0375 + 0.10625 = <strong>0.14375</strong>",
+    "PR(B) = 0.15/4 + 0.85×(PR(A)/L_A + PR(C)/L_C + PR(D)/L_D) = 0.0375 + 0.85×(0.125+0.125+0.25) = 0.0375 + 0.85×0.5 = <strong>0.4625</strong>"
+  ],
+  model:"\\(PR(B)=\\tfrac{0.15}{4}+0.85\\times\\!\\left(\\tfrac{0.25}{2}+\\tfrac{0.25}{2}+\\tfrac{0.25}{1}\\right)=0.0375+0.425=\\mathbf{0.4625}\\). B receives links from all three other pages; C receives none. The order C→A→D→B mirrors the dependency chain."
 },
 {
   id:"m5-attention-tf", module:5, week:"W12", kind:"mc", marks:2, diff:"Normal",
