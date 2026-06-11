@@ -272,6 +272,55 @@ model.wv.similarity(<span class="st">'alice'</span>, <span class="st">'machines'
   keypoints:["index_docs() builds the index first","likelihood_IR(I, Q) computes scores","output = ranked list by likelihood / P(Q|D)"]
 },
 
+{
+  id:"m2-jm-full", module:2, week:"W5", kind:"formula", marks:6, diff:"Hard",
+  prompt:"Jelinek-Mercer smoothing, \\(\\lambda=0.7\\). Query <b>q = \"machine learning model\"</b>. Work out each term's smoothed probability, then compute the <b>log query likelihood</b> \\(\\log P_{JM}(q|D1)=\\sum_t\\ln P_{JM}(t|D1)\\).",
+  formulas:[
+    "P_JM(t|D) = λ · P(t|D) + (1−λ) · P(t|C)",
+    "P(t|D) = tf(t,D) / |D|     ·     P(t|C) = tf(t,C) / |C|"
+  ],
+  table:{
+    headers:["Term","tf in D1  (|D1|=50)","tf in corpus  (|C|=200)"],
+    rows:[["machine","4","16"],["learning","6","10"],["model","2","20"]]
+  },
+  substeps:[
+    {label:"P<sub>JM</sub>(machine|D1) =", accept:["0.08","0.080","0.0800"], hint:"= 0.7×(4/50) + 0.3×(16/200)"},
+    {label:"P<sub>JM</sub>(learning|D1) =", accept:["0.099","0.0990"],        hint:"= 0.7×(6/50) + 0.3×(10/200)"},
+    {label:"P<sub>JM</sub>(model|D1) =",   accept:["0.058","0.0580"],         hint:"= 0.7×(2/50) + 0.3×(20/200)"}
+  ],
+  finalLabel:"log P<sub>JM</sub>(q|D1) =",
+  accept:["-7.6857","-7.6856","-7.686","-7.69"],
+  hint:"4 dp",
+  steps:[
+    "\\(P_{JM}(\\text{machine}|D1)=0.7\\times\\tfrac{4}{50}+0.3\\times\\tfrac{16}{200}=0.056+0.024=\\mathbf{0.0800}\\)",
+    "\\(P_{JM}(\\text{learning}|D1)=0.7\\times\\tfrac{6}{50}+0.3\\times\\tfrac{10}{200}=0.084+0.015=\\mathbf{0.0990}\\)",
+    "\\(P_{JM}(\\text{model}|D1)=0.7\\times\\tfrac{2}{50}+0.3\\times\\tfrac{20}{200}=0.028+0.030=\\mathbf{0.0580}\\)",
+    "Sum of logs: \\(\\ln(0.0800)+\\ln(0.0990)+\\ln(0.0580)=-2.5257+(-2.3126)+(-2.8473)=\\mathbf{-7.6856}\\)"
+  ],
+  model:"\\(\\log P_{JM}(q|D1)=\\ln(0.08)+\\ln(0.099)+\\ln(0.058)=\\mathbf{-7.6857}\\). Each term's smoothed probability avoids zero via the corpus background \\(\\lambda\\,P(t|C)\\); the product-in-log-space gives the query likelihood."
+},
+{
+  id:"m2-eval-chain", module:2, week:"W5", kind:"formula", marks:5, diff:"Normal",
+  prompt:"Evaluation. Relevant set \\(|A|=8\\), retrieved set \\(|B|=6\\), overlap \\(|A\\cap B|=5\\). Compute Precision and Recall first, then use them to find the <b>F1 measure</b>.",
+  formulas:[
+    "Precision = |A∩B| / |B|     ·     Recall = |A∩B| / |A|",
+    "F1 = 2PR / (P + R)"
+  ],
+  substeps:[
+    {label:"Precision =", accept:["0.8333","0.833","83.33","83.3"], hint:"= |A∩B| / |B| = 5 / 6"},
+    {label:"Recall =",    accept:["0.625","0.6250","62.5"],          hint:"= |A∩B| / |A| = 5 / 8"}
+  ],
+  finalLabel:"F1 =",
+  accept:["0.7143","0.714","71.43","5/7"],
+  hint:"4 dp or %",
+  steps:[
+    "Precision \\(=\\tfrac{5}{6}=\\mathbf{0.8333}\\) (83.33%)",
+    "Recall \\(=\\tfrac{5}{8}=\\mathbf{0.6250}\\) (62.5%)",
+    "\\(F1=\\dfrac{2\\times0.8333\\times0.6250}{0.8333+0.6250}=\\dfrac{1.0417}{1.4583}=\\mathbf{0.7143}\\)"
+  ],
+  model:"\\(F1=\\dfrac{2PR}{P+R}=\\dfrac{2\\times\\frac{5}{6}\\times\\frac{5}{8}}{\\frac{5}{6}+\\frac{5}{8}}=\\dfrac{50/48}{70/48}=\\dfrac{5}{7}=\\mathbf{71.43\\%}\\). F1 is the harmonic mean of precision and recall."
+},
+
 /* ===================== MODULE 3 — wk6–8 ===================== */
 {
   id:"m3-editdist-tf", module:3, week:"W6", kind:"tf", marks:2, diff:"Normal",

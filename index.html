@@ -210,6 +210,24 @@ a{color:var(--cyan)}
   font-family:var(--mono);font-size:11px;color:var(--cyan);display:grid;place-items:center}
 .steps li strong{color:var(--text)}
 
+/* formula stepped */
+.formula-box{background:var(--panel-2);border-left:3px solid var(--cyan-deep);padding:9px 13px;font-family:var(--mono);font-size:13px;color:var(--text);margin:6px 0;border-radius:0 var(--radius-sm) var(--radius-sm) 0}
+.fstep{margin:10px 0;transition:opacity .25s}
+.fstep.locked{opacity:.3;pointer-events:none}
+.fstep-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:4px}
+.fstep-row label{font-family:var(--mono);font-size:13.5px;min-width:200px;color:var(--text)}
+.fstep-inp{width:110px;background:var(--panel-2);border:1px solid var(--line);border-radius:9px;padding:8px 11px;color:var(--text);font-family:var(--mono);font-size:13.5px;transition:border-color .14s,box-shadow .14s}
+.fstep-inp:focus{outline:none;border-color:var(--cyan-deep);box-shadow:0 0 0 3px rgba(63,217,198,.12)}
+.fstep-inp:disabled{opacity:.7;cursor:default}
+.fstep-fb{font-size:12px;padding:2px 7px;border-radius:7px}
+.fstep-fb.ok{background:rgba(86,207,142,.14);color:var(--green)}
+.fstep-fb.no{background:rgba(239,111,111,.14);color:var(--red)}
+.fstep-hint-btn{font-size:11px;padding:3px 9px;cursor:pointer;background:transparent;border:1px solid var(--line);border-radius:7px;color:var(--muted-2);font-family:var(--sans)}
+.fstep-hint-btn:hover{color:var(--text);border-color:var(--cyan-deep)}
+.fstep-hint{font-size:12.5px;color:var(--muted);font-family:var(--mono);margin:3px 0 0;display:none}
+.final-fstep{margin-top:14px;border-top:1px dashed var(--line);padding-top:14px}
+.final-fstep.locked{opacity:.3;pointer-events:none}
+
 .selfgrade{display:flex;gap:8px;margin-top:14px;align-items:center;flex-wrap:wrap}
 .selfgrade .q-self{font-size:12.5px;color:var(--muted-2);margin-right:4px}
 
@@ -267,11 +285,8 @@ footer.site a{color:var(--muted)}
 <div class="app">
 
   <section class="hero">
-    <div class="eyebrow">QUT · School of Computer Science · Practice mode</div>
-    <h2>Drill the exam,<br><em>one ranked question</em> at a time.</h2>
-    <p class="lead">Every question here is rebuilt from the IFN647 reviewer and lecture set, sorted into the five course modules. Concept traps, true/false, hand-calculations and short Python — checked instantly, with worked solutions when you want them.</p>
-    <div class="facts">
-      <div class="fact"><b>13</b><span>Questions in the real exam</span></div>
+       <div class="facts">
+      <div class="fact"><b>13</b><span>Questions/span></div>
       <div class="fact"><b>45<small> marks</small></b><span>Q1–5 short · Q6–13 problem</span></div>
       <div class="fact"><b>5</b><span>Modules · weeks 2–12</span></div>
       <div class="fact"><b id="fact-bank">0</b><span>Practice items loaded</span></div>

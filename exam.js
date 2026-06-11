@@ -8,7 +8,8 @@
     tf:{label:"True / False", glyph:"⊻"},
     calc:{label:"Calculation", glyph:"∑"},
     short:{label:"Short answer", glyph:"¶"},
-    code:{label:"Python", glyph:"</>"}
+    code:{label:"Python", glyph:"</>"},
+    formula:{label:"Formula", glyph:"∫"}
   };
   const STORE_KEY = "ifn647_progress_v1";
 
@@ -133,6 +134,8 @@
       renderChoice(q, body, card, locked);
     } else if(q.kind==='calc'){
       renderCalc(q, body, card, locked);
+    } else if(q.kind==='formula'){
+      renderFormula(q, body, card, locked);
     } else { // short / code
       renderReveal(q, body, card, locked);
     }
@@ -251,6 +254,90 @@
     }
   }
 
+  /* formula — multi-step progressive */
+  function renderFormula(q, body, card, locked){
+    if(q.formulas) q.formulas.forEach(f=> body.appendChild(el('div','formula-box',f)));
+    if(q.table){
+      const t=document.createElement('table'); t.className='data'; t.style.margin='12px 0';
+      const thead=document.createElement('thead'), hr=document.createElement('tr');
+      q.table.headers.forEach(h=>{const th=document.createElement('th');th.textContent=h;hr.appendChild(th);});
+      thead.appendChild(hr); t.appendChild(thead);
+      const tbody=document.createElement('tbody');
+      q.table.rows.forEach(row=>{
+        const tr=document.createElement('tr');
+        row.forEach(cell=>{const td=document.createElement('td');td.textContent=cell;tr.appendChild(td);});
+        tbody.appendChild(tr);
+      });
+      t.appendChild(tbody); body.appendChild(t);
+    }
+    const substeps=q.substeps||[], stepOk=substeps.map(()=>false), stepEls=[];
+    const finalDiv=el('div','final-fstep'+(substeps.length?' locked':''));
+
+    substeps.forEach((ss,i)=>{
+      const wrap=el('div','fstep'+(i>0?' locked':''));
+      const row=el('div','fstep-row');
+      const inp=document.createElement('input'); inp.type='text'; inp.className='fstep-inp'; inp.placeholder='0.0000';
+      const fb=el('span','fstep-fb');
+      row.appendChild(el('label',null,ss.label)); row.appendChild(inp); row.appendChild(fb);
+      if(ss.hint){
+        const hBtn=el('button','fstep-hint-btn','hint');
+        const hintP=el('p','fstep-hint',ss.hint);
+        hBtn.onclick=()=>{hintP.style.display='block';};
+        row.appendChild(hBtn); wrap.appendChild(row); wrap.appendChild(hintP);
+      } else { wrap.appendChild(row); }
+      inp.addEventListener('input',()=>{
+        if(progress[q.id]) return;
+        if(normNum(inp.value)===null){fb.className='fstep-fb';fb.textContent='';return;}
+        const ok=matchCalc(inp.value,ss.accept);
+        fb.className='fstep-fb '+(ok?'ok':'no'); fb.textContent=ok?'✓':'✗';
+        if(ok&&!stepOk[i]){
+          stepOk[i]=true; inp.disabled=true; inp.style.borderColor='var(--green)';
+          if(stepEls[i+1]) stepEls[i+1].classList.remove('locked');
+          else finalDiv.classList.remove('locked');
+        }
+      });
+      stepEls.push(wrap); body.appendChild(wrap);
+    });
+
+    const finalRow=el('div','answerrow');
+    if(q.finalLabel){const lbl=el('span',null,q.finalLabel);lbl.style.cssText='font-family:var(--mono);font-size:13.5px';finalRow.appendChild(lbl);}
+    const finalInp=document.createElement('input'); finalInp.type='text'; finalInp.placeholder='Your answer…';
+    const subBtn=el('button','btn','Check'), showBtn=el('button','btn ghost','Show working');
+    finalRow.appendChild(finalInp); finalRow.appendChild(subBtn); finalRow.appendChild(showBtn);
+    if(q.hint) finalRow.appendChild(el('span','hint','format: '+q.hint));
+    finalDiv.appendChild(finalRow);
+    const revealHost=el('div'); finalDiv.appendChild(revealHost); body.appendChild(finalDiv);
+
+    function lockAll(){
+      stepEls.forEach(s=>{s.classList.remove('locked');const i=s.querySelector('.fstep-inp');if(i)i.disabled=true;});
+      finalDiv.classList.remove('locked');
+      finalInp.disabled=true; subBtn.disabled=true; showBtn.disabled=true;
+    }
+    function showWorking(status){
+      revealHost.innerHTML='';
+      const r=el('div','reveal');
+      if(status){const ok=status!=='wrong';r.appendChild(el('div','verdict '+(ok?'ok':'no'),(ok?'✓ Correct':'✗ Not quite')+' · '+(ok?q.marks:0)+'/'+q.marks+' marks'));}
+      r.appendChild(el('h5',null,'Worked solution'));
+      const ol=el('ol','steps'); (q.steps||[]).forEach(s=>ol.appendChild(el('li',null,s))); r.appendChild(ol);
+      r.appendChild(el('h5',null,'Answer')); r.appendChild(el('div','ans',q.model));
+      revealHost.appendChild(r); typeset(r);
+    }
+    subBtn.onclick=()=>{
+      if(progress[q.id]) return;
+      const ok=matchCalc(finalInp.value,q.accept);
+      award(q,card,ok?'correct':'wrong');
+      lockAll(); finalInp.style.borderColor=ok?'var(--green)':'var(--red)';
+      showWorking(progress[q.id].status);
+    };
+    finalInp.addEventListener('keydown',e=>{if(e.key==='Enter')subBtn.click();});
+    showBtn.onclick=()=>{
+      lockAll();
+      if(!progress[q.id]) award(q,card,'self');
+      showWorking(progress[q.id]?progress[q.id].status:null);
+    };
+    if(locked){lockAll();showWorking(progress[q.id].status);}
+  }
+
   /* short / code — self graded */
   function renderReveal(q, body, card, locked){
     const row = el('div','answerrow');
@@ -331,7 +418,7 @@
   function startMock(){
     // 5 short (concept/tf/short), 8 problem (calc/code) where possible, exam order
     const shortPool = BANK.filter(q=>['mc','tf','short'].includes(q.kind));
-    const probPool  = BANK.filter(q=>['calc','code'].includes(q.kind));
+    const probPool  = BANK.filter(q=>['calc','code','formula'].includes(q.kind));
     const pick = (arr,n)=>{ const a=[...arr]; for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];} return a.slice(0,n); };
     const five = pick(shortPool,5);
     const eight = pick(probPool,8);
